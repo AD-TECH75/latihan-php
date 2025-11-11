@@ -1,0 +1,212 @@
+/* ====== RESET ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ====== BODY ====== */
+body {
+  background: #f5f7fb;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+/* ====== HEADER ====== */
+.header {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+/* ====== BUTTONS ====== */
+button,
+.btn,
+.btn-manage {
+  border: none;
+  background: #3b82f6;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+}
+
+button:hover,
+.btn:hover,
+.btn-manage:hover {
+  background: #1d4ed8;
+}
+
+button.danger,
+.danger {
+  background: #ef4444;
+}
+
+button.danger:hover,
+.danger:hover {
+  background: #b91c1c;
+}
+
+/* ====== CONTENT AREA ====== */
+.content {
+  padding: 30px 50px;
+}
+
+.content h2 {
+  font-size: 22px;
+  color: #334155;
+  margin-bottom: 15px;
+}
+
+.content h3 {
+  font-size: 18px;
+  color: #475569;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+/* ====== FORM TABLE SELECT ====== */
+.form-table {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-table select {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 14px;
+  outline: none;
+}
+
+/* ====== TABLE ====== */
+.table-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+  padding: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th {
+  background: #2563eb;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+table tr:hover {
+  background-color: #e0e7ff;
+}
+
+/* ====== FORM ADD DATA ====== */
+.form-add {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-add input {
+  flex: 1 1 200px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #f8fafc;
+  font-size: 14px;
+}
+
+.form-add button {
+  background: #10b981;
+}
+
+.form-add button:hover {
+  background: #059669;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  table th,
+  table td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .form-add {
+    flex-direction: column;
+  }
+
+  .form-table {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ====== LOGOUT BUTTON ====== */
+.logout-btn {
+  background: #ef4444;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

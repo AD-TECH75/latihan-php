@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f9fafb;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: #2563eb;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.btn-logout {
+  background: #ef4444;
+  padding: 8px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #dc2626;
+}
+
+.content {
+  padding: 30px;
+}
+
+.form-table {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+select, button, .btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+button {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+.btn {
+  text-decoration: none;
+  background: #10b981;
+  color: #fff;
+  border: none;
+}
+
+.btn:hover {
+  background: #059669;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+tr:hover {
+  background: #f9fafb;
+}

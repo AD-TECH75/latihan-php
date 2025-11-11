@@ -106,7 +106,7 @@ function kategoriBMI($bmi) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📐 Library matematika SMK</title>
-    <link rel="stylesheet" href="style/mtk-library.css">
+    <link rel="stylesheet" href="style/style.css">
 </head>
 
 <body>

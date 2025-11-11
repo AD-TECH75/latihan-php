@@ -1,16 +1,15 @@
 <?php
-$baseFolder = __DIR__; // Folder latihan-php
-$guruFolders = [];
+$guruName = basename(__DIR__); // Ambil nama folder guru (pak-A / pak-B)
+$materiFolder = __DIR__ . '/materi';
+$materiFolders = [];
 
-// Cari semua folder di level atas (selain index.php dan hidden files)
-foreach (scandir($baseFolder) as $item) {
-    // Lewati file/folder tersembunyi (yang diawali titik), file index.php, dan direktori non-guru
-    if ($item === '.' || $item === '..' || $item === 'index.php' || substr($item, 0, 1) === '.') {
-        continue;
-    }
-    $fullPath = $baseFolder . DIRECTORY_SEPARATOR . $item;
-    if (is_dir($fullPath)) {
-        $guruFolders[] = $item;
+if (is_dir($materiFolder)) {
+    foreach (scandir($materiFolder) as $item) {
+        if ($item === '.' || $item === '..') continue;
+        $fullPath = $materiFolder . DIRECTORY_SEPARATOR . $item;
+        if (is_dir($fullPath)) {
+            $materiFolders[] = $item;
+        }
     }
 }
 ?>
@@ -20,7 +19,7 @@ foreach (scandir($baseFolder) as $item) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>📂 File Explorer - Guru</title>
+    <title>📂 <?= htmlspecialchars($guruName) ?> - Materi</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -44,10 +43,10 @@ foreach (scandir($baseFolder) as $item) {
             background: #111;
             border-radius: 12px;
         }
-        .guru-list {
+        .materi-list {
             list-style: none;
         }
-        .guru-list li {
+        .materi-list li {
             margin: 12px 0;
             padding: 14px;
             background: #1a1a1a;
@@ -55,13 +54,13 @@ foreach (scandir($baseFolder) as $item) {
             border-radius: 8px;
             transition: all 0.3s ease;
         }
-        .guru-list a {
+        .materi-list a {
             color: #87cefa;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 500;
         }
-        .guru-list a:hover {
+        .materi-list a:hover {
             color: #b0e0ff;
             text-decoration: underline;
         }
@@ -76,21 +75,25 @@ foreach (scandir($baseFolder) as $item) {
 </head>
 <body>
     <header>
-        <h1>📂 File Explorer - Guru</h1>
-        <p class="subtitle">Pilih guru untuk melihat materi</p>
+        <h1>📂 <?= htmlspecialchars($guruName) ?></h1>
+        <p class="subtitle">Daftar Materi</p>
     </header>
 
     <div class="container">
-        <h2>👨‍🏫 Daftar Guru</h2>
-        <ul class="guru-list" id="guruList">
-            <?php foreach ($guruFolders as $guru): ?>
-                <li><a href="<?= htmlspecialchars($guru) ?>/index.php"><?= htmlspecialchars($guru) ?></a></li>
-            <?php endforeach; ?>
+        <h2>📚 Materi Tersedia</h2>
+        <ul class="materi-list" id="materiList">
+            <?php if (empty($materiFolders)): ?>
+                <li><a href="#">📁 Belum ada materi</a></li>
+            <?php else: ?>
+                <?php foreach ($materiFolders as $materi): ?>
+                    <li><a href="materi/<?= urlencode($materi) ?>/index.php"><?= htmlspecialchars($materi) ?></a></li>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </ul>
     </div>
 
     <footer>
-        &copy; 2025 File Explorer. <a href="index.php">Beranda</a>.
+        &copy; 2025 File Explorer. <a href="../index.php">Kembali ke Daftar Guru</a>.
     </footer>
 </body>
 </html>
