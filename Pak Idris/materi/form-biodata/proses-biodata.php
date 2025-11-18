@@ -62,7 +62,7 @@
             <h3>👤 Data Pribadi</h3>
 
             <?php 
-                $nama = htmlspecialchars(trim($_POST['nama']??''));
+                $nama = htmlspecialchars(trim($_POST['nama_lengkap']??''));
                 $nis = htmlspecialchars(trim($_POST['nis']??''));
                 $jenis_kelamin = $_POST['jenis_kelamin'] ?? '';
                 $tanggal_lahir = $_POST['tanggal_lahir']??'';
@@ -78,27 +78,52 @@
         <div class='data-box'>
             <h3>Data Sekolah</h3>
 
+            <?php
+                $kelas = $_POST['kelas'];
+                $alamat = htmlspecialchars($_POST['alamat']);
+                $email = htmlspecialchars($_POST['email']);
+                $telepon = htmlspecialchars(trim($_POST['telepon']));
+            ?>
 
-            <div class='data-item'><span class='data-label'>Kelas:</span> XI RPL</div>
-            <div class='data-item'><span class='data-label'>Alamat:</span> Jombang</div>
-            <div class='data-item'><span class='data-label'>Email:</span> dani123@gmail.com</div>
-            <div class='data-item'><span class='data-label'>Telepon:</span> 08576576572</div>
+
+            <div class='data-item'><span class='data-label'>Kelas:</span> <?= $kelas ?></div>
+            <div class='data-item'><span class='data-label'>Alamat:</span> <?= $alamat ?></div>
+            <div class='data-item'><span class='data-label'>Email:</span> <?= $email ?></div>
+            <div class='data-item'><span class='data-label'>Telepon:</span> <?= $telepon ?></div>
 
         </div>
 
         <div class='data-box'>
             <h3>Minat dan Hobi</h3>
 
+            <?php
+                $hobi = $_POST['hobi'];
+
+                if (!empty($hobi)) {
+            ?>
+
 
             <!-- Minat dan hobi (bisa multiple) -->
 
             <div class='data-item'>
                 <span class='data-label'>Hobi yang dipilih:</span><br>
+                    <?php 
+                        foreach ($hobi as $hoby){
+                            $icon = [
+                                'coding' => '💻',
+                                'desain' => '🎨 ',
+                                'jaringan' => '📶', 
+                                'olahraga' => '🏃🏻'
+                            ];
 
-                - 🎨 Desain <br>
-
-
+                            echo "- " . ($icon[$hoby]) . " " . ucfirst($hoby) . "<br/>";
+                        }
+                    ?>
             </div>
+
+            <?php } else {
+                echo "tidak ada hoby";
+            }?>
             
             <!-- Tombol kembali -->
             <div style='text-align: center; margin-top: 30px;'>
