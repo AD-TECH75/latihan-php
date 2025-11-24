@@ -86,7 +86,7 @@ if (is_dir($materiFolder)) {
                 <li><a href="#">📁 Belum ada materi</a></li>
             <?php else: ?>
                 <?php foreach ($materiFolders as $materi): ?>
-                    <li><a href="materi/<?= urlencode($materi) ?>/index.php"><?= htmlspecialchars($materi) ?></a></li>
+                    <li><a href="materi/<?= urlencode($materi) ?>/"><?= htmlspecialchars($materi) ?></a></li>
                 <?php endforeach; ?>
             <?php endif; ?>
         </ul>
