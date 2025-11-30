@@ -28,16 +28,16 @@
 
             <tbody class="table table-light">
                 <?php
-                    $result = mysqli_query($koneksi, 'SELECT * FROM siswa');
-                    while ($row = mysqli_fetch_array($result)) {
+                $result = mysqli_query($koneksi, 'SELECT * FROM siswa');
+                while ($row = mysqli_fetch_array($result)) {
                     ?>
-                <tr>
-                    <td> <?php echo htmlspecialchars($row['id'])?></td>
-                    <td> <?php echo htmlspecialchars($row['nama'])?></td>
-                    <td> <?php echo htmlspecialchars($row['kelas'])?></td>
-                    <td> <?php echo htmlspecialchars($row['alamat'])?></td>
-                </tr>
-                <?php }?>
+                    <tr>
+                        <td> <?= htmlspecialchars($row['id']) ?></td>
+                        <td> <?= htmlspecialchars($row['nama']) ?></td>
+                        <td> <?= htmlspecialchars($row['kelas']) ?></td>
+                        <td> <?= htmlspecialchars($row['alamat']) ?></td>
+                    </tr>
+                <?php } ?>
             </tbody>
             <?php ?>
         </table>
