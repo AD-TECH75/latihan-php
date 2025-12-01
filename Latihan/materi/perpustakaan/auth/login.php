@@ -4,13 +4,13 @@ session_start();
 function select_role($row)
 {
     if ($row["role"] == "admin") {
-        header("location: ../public/admin.php ");
+        header("location:".BASEURL."private/admin.php ");
         exit();
     } else if ($row["role"] == "pengarang") {
-        header("location: pengarang.php");
+        header("location:".BASEURL."public/pengarang.php ");
         exit();
     } else {
-        header("location: user.php");
+        header("location:".BASEURL."public/user.php ");
         exit();
     }
 }

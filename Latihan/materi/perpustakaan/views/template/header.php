@@ -5,6 +5,9 @@ $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
 
 // menentukan nama yang di display
 $displayname = $username ? $username : "Guest";
+
+// mengambil nama file halaman saat ini
+$currentPage = basename($_SERVER["SCRIPT_NAME"]);
 ?>
 
 <style>
@@ -66,7 +69,7 @@ $displayname = $username ? $username : "Guest";
             background-color: #d6d6d6ff;
         }
     }
-    
+
     [data-bs-theme="dark"] {
         header {
             background-color: var(--bs-secondary);
@@ -86,13 +89,14 @@ $displayname = $username ? $username : "Guest";
     <!-- bagian kiri -->
     <div class="left d-flex d-inline align-items-center float-start">
         <i class="bi bi-book justify-content-center mb-1" style="font-size: 50px;"></i>
-        <h1 class="text-uppercase fs-3 justify-content-center align-item-center" style="margin-left: 10px;"><a href="<?= BASEURL ?>"
-                class="text-decoration-none">my-library</a></h1>
+        <h1 class="text-uppercase fs-3 justify-content-center align-item-center" style="margin-left: 10px;"><a
+                href="<?= BASEURL ?>" class="text-decoration-none text-reset">my-library</a></h1>
     </div>
 
     <!-- bagian kanan -->
     <div class="right dropdown-center ms-auto d-flex align-items-center justify-content-center"
         data-bs-auto-close="false">
+
         <!-- toggle ganti tema -->
         <div class="row justify-content-center me-3">
             <input type="checkbox" class="checkbox" id="checkbox">
@@ -118,6 +122,9 @@ $displayname = $username ? $username : "Guest";
 
             <p class="text-center fw-bold mb-2"><?= $displayname ?></p>
 
+            <hr>
+            <li><a href="<?= BASEURL ?>" class="dropdown-item">Beranda</a></li>
+
             <!-- jika belum login maka akan muncul -->
             <?php if (!$username): ?>
                 <hr>
@@ -126,7 +133,9 @@ $displayname = $username ? $username : "Guest";
 
             <?php if ($role == "admin"): ?>
                 <hr>
-                <li><a href="<?= BASEURL ?>public/admin.php" class="dropdown-item">Halaman Admin</a></li>
+                <li><a href="<?= BASEURL ?>private/admin.php" class="dropdown-item">Halaman Admin</a></li>
+                <hr>
+                <a href="<?= BASEURL ?>private/kelolaUser.php" class="dropdown-item">Kelola User</a>
             <?php endif; ?>
             <?php if ($role == "user"): ?>
                 <hr>
