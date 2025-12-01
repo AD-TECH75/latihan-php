@@ -69,7 +69,7 @@
 
                 <tbody class="table table-light">
                     <?php
-                    $result = mysqli_query($conn, "SELECT * FROM buku");
+                    $result = mysqli_query($conn, "SELECT * FROM buku WHERE visibility='show'");
                     $no = 1;
                     while ($row = mysqli_fetch_array($result)):
                         ?>
