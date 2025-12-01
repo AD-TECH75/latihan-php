@@ -12,36 +12,42 @@
 </head>
 
 <body class="p-4">
-    <div class="container">
+    <main class="container">
         <h2 class="mb-4">Data Siswa</h2>
         <a href="tambah.php" class="btn btn-success mb-3">Tambah Data</a>
 
-        <table class="table table-bordered table-striped">
-            <thead class="table table-dark">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-dark">
                 <tr>
                     <th>ID</th>
                     <th>Nama</th>
                     <th>Kelas</th>
                     <th>Alamat</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
-            <tbody class="table table-light">
+            <tbody>
                 <?php
-                $result = mysqli_query($koneksi, 'SELECT * FROM siswa');
+                $result = mysqli_query($koneksi, "SELECT * FROM siswa");
+                $no = 1;
                 while ($row = mysqli_fetch_array($result)) {
                     ?>
                     <tr>
-                        <td> <?= htmlspecialchars($row['id']) ?></td>
-                        <td> <?= htmlspecialchars($row['nama']) ?></td>
-                        <td> <?= htmlspecialchars($row['kelas']) ?></td>
-                        <td> <?= htmlspecialchars($row['alamat']) ?></td>
+                        <td><?= $no++ ?></td>
+                        <td><?= $row["nama"] ?></td>
+                        <td><?= $row["kelas"] ?></td>
+                        <td><?= $row["alamat"] ?></td>
+                        <td>
+                            <a href="edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="hapus.php?id=<?= $row['id'] ?>" class="btn btn-danger btn-sm">Hapus</a>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
-            <?php ?>
         </table>
-    </div>
+
+    </main>
 </body>
 
 </html>
