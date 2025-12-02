@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../config/connection.php';
-include '../views/bootstrap.php';
+include BASEPATH . '/views/bootstrap.php';
 
 // Pastikan user sudah login
 if (!isset($_SESSION["username"])) {
@@ -27,11 +27,11 @@ $_SESSION["role"] = $currentUser["role"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola User</title>
-    <link rel="stylesheet" href="../assets/style/tamplate.css">
+    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/tamplate.css">
 </head>
 
 <body>
-    <header><?php include "../views/template/header.php" ?></header>
+    <header><?php include BASEPATH . "/views/template/header.php" ?></header>
 
     <main class="container mt-2">
         <h1 class="text text-center text-capitalize">list-user</h1>
@@ -89,8 +89,9 @@ $_SESSION["role"] = $currentUser["role"];
                                 <?php else: ?>
                                     <div class="d-flex justify-content-center gap-2">
 
-                                        <!-- Ban / Unban -->
-                                        <form action="<?= BASEURL ?>app/process.php" method="post">
+                                        <!-- Ban / UnBan -->
+                                        <form action="<?= BASEURL ?>app/process.php" method="post"
+                                            style="margin: 0; padding: 0;">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                             <input type="hidden" name="status"
                                                 value="<?= $row['status'] == 'active' ? 'ban' : 'active' ?>">
@@ -102,7 +103,8 @@ $_SESSION["role"] = $currentUser["role"];
                                         </form>
 
                                         <!-- Delete -->
-                                        <form action="<?= BASEURL ?>app/process.php" method="post">
+                                        <form action="<?= BASEURL ?>app/process.php" method="post"
+                                            style="margin: 0; padding: 0;">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                             <button type="submit" name="delete" class="btn btn-secondary btn-sm">
                                                 <i class="bi bi-trash3-fill"></i>
@@ -120,7 +122,7 @@ $_SESSION["role"] = $currentUser["role"];
         </div>
     </main>
 
-    <footer><?php include "../views/template/footer.php" ?></footer>
+    <footer><?php include BASEPATH . "/views/template/footer.php" ?></footer>
 </body>
 
 </html>

@@ -1,18 +1,5 @@
-<?php
-include '../config/connection.php';
-include BASEPATH . '/views/bootstrap.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hideShow'])) {
-    $id = $_POST['id'];
-    $visibility = $_POST['visibility'];
-
-    $query = "UPDATE buku SET visibility='$visibility' WHERE id='$id'";
-    mysqli_query($conn, $query);
-    
-    header("Location: admin.php"); // refresh
-    exit;
-}
-?>
+<?php include '../config/connection.php' ?>
+<?php include BASEPATH . '/views/bootstrap.php' ?>
 
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light" id="htmlpage">
@@ -21,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hideShow'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin-Library</title>
-    <link rel="stylesheet" href="../assets/style/tamplate.css">
+    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/tamplate.css">
 </head>
 
 <body>
@@ -54,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hideShow'])) {
                             <td><?= $row['tahun'] ?></td>
                             <td><?= $row['stok'] ?></td>
                             <td class="text-center align-middle" style="width: 50px;">
-                                <form method="POST">
+                                <form action="<?= BASEURL ?>app/process.php" method="POST" style="margin: 0; padding: 0;">
                                     <input type="hidden" name="hideShow" value="1">
                                     <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                     <input type="hidden" name="visibility"
@@ -77,16 +64,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hideShow'])) {
     </main>
     <footer><?php include BASEPATH . '/views/template/footer.php' ?></footer>
 </body>
-<script>
-    const html = document.getElementById("htmlpage");
-    const checkbox = document.getElementById("checkbox");
-    checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-            html.setAttribute("data-bs-theme", "dark");
-        } else {
-            html.setAttribute("data-bs-theme", "light");
-        }
-    })
-</script>
 
 </html>
