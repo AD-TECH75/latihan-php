@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : null;
 $role = isset($_SESSION["role"]) ? $_SESSION["role"] : null;
 

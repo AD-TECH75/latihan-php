@@ -4,13 +4,13 @@ session_start();
 function select_role($row)
 {
     if ($row["role"] == "admin") {
-        header("location:".BASEURL."private/admin.php ");
+        header("location:" . BASEURL . "private/admin.php");
         exit();
     } else if ($row["role"] == "pengarang") {
-        header("location:".BASEURL."public/pengarang.php ");
+        header("location:" . BASEURL . "public/pengarang.php");
         exit();
     } else {
-        header("location:".BASEURL."public/user.php ");
+        header("location:" . BASEURL . "public/user.php");
         exit();
     }
 }
@@ -33,10 +33,21 @@ if (isset($_COOKIE["username"]) && isset($_COOKIE["password"])) {
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
 
+        // cek status ban
+        if ($row["status"] == "ban") {
+            setcookie("username", "", time() - 3600, '/');
+            setcookie("password", "", time() - 3600, '/');
+
+            $_SESSION['login_error'] = "Anda telah diban oleh admin silahkan hubungi admin";
+            header("location: " . BASEURL . "auth/login.php");
+            exit();
+        }
+
+        // ⬅ MENAMBAHKAN SESSION ID
+        $_SESSION["id"] = $row["id"];
         $_SESSION["username"] = $row["username"];
         $_SESSION["role"] = $row["role"];
 
-        //mengambil fungsi select_role
         select_role($row);
     }
 }
@@ -47,18 +58,23 @@ if (isset($_POST['submit'])) {
     $password = htmlspecialchars($_POST['password']);
     $remember = isset($_POST['save']) ? 1 : 0;
 
-
     $query = "SELECT * FROM user WHERE username='$username' AND password='$password'";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
 
-        //menyimpan session
+        if ($row["status"] == "ban") {
+            $_SESSION["login_error"] = "Akun anda telah diban oleh admin silahkan hubungi admin";
+            header("location: " . BASEURL . "auth/login.php");
+            exit();
+        }
+
+        // ⬅ MENAMBAHKAN SESSION ID
+        $_SESSION["id"] = $row["id"];
         $_SESSION["username"] = $row["username"];
         $_SESSION["role"] = $row["role"];
 
-        //remember me
         if ($remember) {
             setcookie("username", $row["username"], time() + (86400 * 7), "/");
             setcookie("password", $row["password"], time() + (86400 * 7), "/");
@@ -70,9 +86,9 @@ if (isset($_POST['submit'])) {
         header("Location: login.php");
         exit();
     }
-
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
