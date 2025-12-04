@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2025 at 04:00 PM
+-- Generation Time: Dec 04, 2025 at 09:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id`, `judul`, `penulis`, `tahun`, `stok`, `visibility`) VALUES
-(1, 'makalah', 'manusia', 2009, 5, 'show');
+(1, 'makalah', 'manusia', 2009, 18, 'show');
 
 -- --------------------------------------------------------
 
@@ -51,19 +51,21 @@ INSERT INTO `buku` (`id`, `judul`, `penulis`, `tahun`, `stok`, `visibility`) VAL
 
 CREATE TABLE `peminjaman` (
   `id` int(11) NOT NULL,
-  `user_id` varchar(100) NOT NULL,
-  `buku_id` varchar(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `buku_id` int(11) NOT NULL,
+  `jumlah` int(11) DEFAULT 1,
   `tgl_pinjam` date NOT NULL,
   `tgl_kembali` date NOT NULL,
-  `status` varchar(20) NOT NULL
+  `status` enum('dipinjam','dikembalikan','terlambat') DEFAULT 'dipinjam'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `peminjaman`
 --
 
-INSERT INTO `peminjaman` (`id`, `user_id`, `buku_id`, `tgl_pinjam`, `tgl_kembali`, `status`) VALUES
-(5, 'user', 'makalah', '2025-12-02', '2025-12-17', '');
+INSERT INTO `peminjaman` (`id`, `user_id`, `buku_id`, `jumlah`, `tgl_pinjam`, `tgl_kembali`, `status`) VALUES
+(1, 2, 1, 1, '2025-12-04', '2025-12-14', 'dipinjam'),
+(2, 2, 1, 1, '2025-12-04', '2025-12-08', 'dipinjam');
 
 -- --------------------------------------------------------
 
@@ -85,7 +87,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `role`, `password`, `status`) VALUES
 (1, 'admin', 'admin', 'admin', 'active'),
-(2, 'user', 'user', 'user123', 'active');
+(2, 'user', 'user', 'user', 'active');
 
 --
 -- Indexes for dumped tables
@@ -123,7 +125,7 @@ ALTER TABLE `buku`
 -- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
