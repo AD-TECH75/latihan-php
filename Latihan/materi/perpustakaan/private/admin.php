@@ -1,6 +1,21 @@
 <?php include '../config/connection.php' ?>
 <?php include BASEPATH . '/views/bootstrap.php' ?>
 
+<?php
+session_start();
+
+// memastikan bahwa sudah login
+if (!isset($_SESSION['username'])) {
+    header('location: ' . BASEURL . 'index.php?error=not_logged_in');
+    exit();
+}
+
+// memastikan role nya benar 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('location: ' . BASEURL . 'index.php?error=invalid_role');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light" id="htmlpage">
 
@@ -8,7 +23,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin-Library</title>
-    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/tamplate.css">
+    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/template.css">
 </head>
 
 <body>

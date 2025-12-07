@@ -3,9 +3,15 @@ session_start();
 include '../config/connection.php';
 include BASEPATH . '/views/bootstrap.php';
 
-// Pastikan user sudah login
-if (!isset($_SESSION["username"])) {
-    header("Location: " . BASEURL . "auth/login.php");
+// memastikan bahwa sudah login
+if (!isset($_SESSION['username'])) {
+    header('location: ' . BASEURL . 'index.php?error=not_logged_in');
+    exit();
+}
+
+// memastikan role nya benar 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('location: ' . BASEURL . 'index.php?error=invalid_role');
     exit();
 }
 
@@ -27,7 +33,7 @@ $_SESSION["role"] = $currentUser["role"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola User</title>
-    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/tamplate.css">
+    <link rel="stylesheet" href="<?= BASEURL ?>/assets/style/template.css">
 </head>
 
 <body>
@@ -38,7 +44,7 @@ $_SESSION["role"] = $currentUser["role"];
 
         <div class="table table-responsive">
             <table class="table table-bordered table-striped text-center">
-                <thead class="table table-dark text-center">
+                <thead class="table text-center">
                     <tr>
                         <th>No</th>
                         <th>Username</th>
@@ -48,7 +54,7 @@ $_SESSION["role"] = $currentUser["role"];
                     </tr>
                 </thead>
 
-                <tbody class="table table-light text-center align-middle">
+                <tbody class="table text-center align-middle">
                     <?php
                     $result = mysqli_query($conn, "SELECT * FROM user");
                     $no = 1;

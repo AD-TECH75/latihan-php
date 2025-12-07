@@ -1,6 +1,5 @@
 <?php
 include '../config/connection.php';
-
 session_start();
 
 // Validasi session
@@ -9,72 +8,91 @@ if (!isset($_SESSION['id']) || !is_numeric($_SESSION['id'])) {
     exit();
 }
 
+// Cek apakah form disubmit
+if (!isset($_POST['submit'])) {
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
+    exit();
+}
+
+// Ambil & validasi input
 $idUser = (int) $_SESSION['id'];
 $idBuku = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
 $day = filter_var($_POST['day'] ?? null, FILTER_VALIDATE_INT);
 $jumlah = filter_var($_POST['jumlah'] ?? null, FILTER_VALIDATE_INT);
 
-// jika tidak mengisi
-if (!isset($_POST['submit']) || !isset($_POST['id']) || !isset($_POST['day'])) {
-    header("location: " . BASEURL . "public/user.php?error=missing_data");
+// Validasi input wajib
+if ($idBuku === false || $day === false || $jumlah === false) {
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
     exit();
 }
 
-if (isset($_POST["submit"])) {
-    // mengecek stok dari buku jika 0 maka akan error
-    $stok = "SELECT stok FROM buku WHERE id=?";
-    $stmtstock = mysqli_prepare($conn, $stok);
-    mysqli_stmt_bind_param($stmtstock,"i", $idBuku);
-    $resultstock = mysqli_stmt_get_result($stmtstock);
-    $buku = mysqli_fetch_assoc($resultstock);
+// Validasi nilai
+if ($day < 1 || $day > 183) {
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
+    exit();
+}
+if ($jumlah < 1) {
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
+    exit();
+}
 
-    if (!$buku) {
-        // buku tidak ditemukan
-        header("location: " . BASEURL . "public/user.php?error=out_of_stock");
-        exit();
-    }
+// mengecek stok
+$querystock = "SELECT stok FROM buku WHERE id=?";
+$stmtstock = mysqli_prepare($conn, $querystock);
+mysqli_stmt_bind_param($stmtstock, "i", $idBuku);
+mysqli_stmt_execute($stmtstock);
+$buku = mysqli_fetch_assoc(mysqli_stmt_get_result($stmtstock));
 
-    $stoktersedia = (int)$buku["stok"];
-
-    if ($jumlah > $stoktersedia) {
-        header("location: " . BASEURL . "public/user.php?error=over_stock");
-        exit();
-    }
-
-    // memastikan tidak lebih dari 6 bulan
-    if ($day < 1 || $day > 183) {
-        header("location: " . BASEURL . "public/user.php?error=invalid_day");
-        exit();
-    }
-
-    // menentukan tanggal pinjam
-    $pinjam = date('Y-m-d');
-    // menentukan tanggal kembali
-    $kembali = date('Y-m-d', strtotime("+$day days"));
-
-    // menggunakan prepare statement
-    mysqli_autocommit($conn, FALSE);
-
-    $querypinjam = "INSERT INTO peminjaman (user_id, buku_id, jumlah, tgl_pinjam, tgl_kembali) VALUES (?, ?, ?, ?, ?)";
-    $prepare1 = mysqli_prepare($conn, $querypinjam);
-    mysqli_stmt_bind_param($prepare1, "iiiss", $idUser, $idBuku, $jumlah, $pinjam, $kembali);
-    $finalquery1 = mysqli_stmt_execute($prepare1);
-    
-    $queryupdate = "UPDATE buku SET stok=stok-? WHERE id=?";
-    $prepare2 = mysqli_prepare($conn, $queryupdate);
-    mysqli_stmt_bind_param($prepare2, "ii", $jumlah, $idBuku);
-    $finalquery2 = mysqli_stmt_execute($prepare2);
-
-    if ($finalquery1 && $finalquery2) {
-        mysqli_commit($conn);
-        header("location: " . BASEURL . "public/user.php?success=berhasil_pinjam");
-        exit();
-    } else {
-        mysqli_rollback($conn);
-        header("location: " . BASEURL . "public/user.php?error=gagal_pinjam");
-        exit();
-    }
-
+if (!$buku || (int) $buku['stok'] < 0) {
     mysqli_autocommit($conn, TRUE);
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
     exit();
 }
+
+// Hitung tanggal
+$pinjam = date('Y-m-d');
+$kembali = date('Y-m-d', strtotime("+$day days"));
+
+// mengecek apakah sudah ada peminjaman aktif dengan buku dan tanggal pengumpulan yang sama
+$query2 = "SELECT id, jumlah FROM peminjaman WHERE user_id=? AND buku_id=? AND tgl_kembali=? AND status='dipinjam' LIMIT 1";
+$stmt2 = mysqli_prepare($conn, $query2);
+mysqli_stmt_bind_param($stmt2, "iis", $idUser, $idBuku, $kembali);
+mysqli_stmt_execute($stmt2);
+$exiting = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt2));
+
+// Transaksi database
+mysqli_autocommit($conn, FALSE);
+
+// jika ada maka akan update
+if ($exiting) {
+    // mengupdate jumlah
+    $newjumlah = (int) $exiting["jumlah"] + $jumlah;
+    $queryjumlah = "UPDATE peminjaman SET jumlah=? WHERE id=?";
+    $stmt4 = mysqli_prepare($conn, $queryjumlah);
+    mysqli_stmt_bind_param($stmt4, "ii", $newjumlah, $exiting["id"]);
+    $ok1 = mysqli_stmt_execute($stmt4);
+} else {
+    // Simpan peminjaman
+    $queryinsert = "INSERT INTO peminjaman (user_id, buku_id, jumlah, tgl_pinjam, tgl_kembali, status) VALUES (?, ?, ?, ?, ?, 'dipinjam')";
+    $stmtinsert = mysqli_prepare($conn, $queryinsert);
+    mysqli_stmt_bind_param($stmtinsert, "iiiss", $idUser, $idBuku, $jumlah, $pinjam, $kembali);
+    $ok1 = mysqli_stmt_execute($stmtinsert);
+}
+
+// Kurangi stok
+$querystock = "UPDATE buku SET stok = stok - ? WHERE id = ?";
+$stmtstock = mysqli_prepare($conn, $querystock);
+mysqli_stmt_bind_param($stmtstock, "ii", $jumlah, $idBuku);
+$ok2 = mysqli_stmt_execute($stmtstock);
+
+if ($ok1 && $ok2) {
+    mysqli_commit($conn);
+    header("Location: " . BASEURL . "public/user.php?pinjam=success");
+} else {
+    mysqli_rollback($conn);
+    header("Location: " . BASEURL . "public/user.php?pinjam=error");
+}
+
+mysqli_close($conn);
+exit();
+?>
