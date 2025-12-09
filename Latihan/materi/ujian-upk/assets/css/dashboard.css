@@ -1,0 +1,16 @@
+body main .card .row .left-line {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 5px;
+	height: 100%;
+	border-radius: 12px 0 0 12px;
+	background: var(--bs-primary);
+}
+
+main section {
+	width: 95%;
+	margin: 0 auto;
+}
+
+

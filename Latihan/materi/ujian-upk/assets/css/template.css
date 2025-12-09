@@ -1,0 +1,8 @@
+body {
+	margin: 0;
+}
+
+body main .card {
+    width: 100%;
+    max-width: 500px;
+}
