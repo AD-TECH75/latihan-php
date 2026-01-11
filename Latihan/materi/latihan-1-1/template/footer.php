@@ -1,0 +1,1 @@
+<p class="text-center justify-content-center bg-light">made by &copy; programmer-magang</p>
