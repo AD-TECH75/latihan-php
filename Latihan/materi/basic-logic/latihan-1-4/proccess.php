@@ -19,7 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $resultnumber = multiplied($number1, $number2);
                     break;
                 case 'devide':
-                    $resultnumber = devide($number1, $number2);
+                    if ($number2 == 0) {
+                        header("location: ./index.php");
+                        exit();
+                    } else {
+                        $resultnumber = devide($number1, $number2);
+                    }
                     break;
             }
         }
@@ -29,4 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('location: ./index.php');
         exit();
     }
+} else {
+    header('location: ./index.php');
+    exit();
 }

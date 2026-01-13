@@ -15,10 +15,6 @@ function multiplied($number1, $number2){
 }
 
 function devide($number1, $number2){
-    if ($number2 === 0) {
-        header('location: ../index.php');
-    } else {
-        $result = $number1 / $number2;
-        return $result;
-    }
+    $result = $number1 / $number2;
+    return $result;
 }
