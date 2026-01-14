@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *,
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        min-height: 100vh;
+        background-color: bisque
+    }
+
+    main {
+        width: 550px;
+        height: fit-content;
+        border-radius: 8px;
+        padding: 15px;
+        padding-bottom: 25px;
+        background-color: white;
+        box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    main h1 {
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    form .form-control {
+        margin-bottom: 5px;
+    }
+
+    form label {
+        margin-bottom: 3px;
+        display: block;
+    }
+
+    form input {
+        width: 100%;
+        height: 30px;
+        margin-bottom: 3px;
+        display: block;
+    }
+
+    form .submit-control {
+        margin-top: 10px;
+    }
+
+    form button {
+        width: 100%;
+        height: 30px;
+        color: white;
+        text-transform: uppercase;
+        font-size: large;
+        background-color: #0d6efd;
+    }
+</style>
+
+<body>
+    <main>
+        <h1>selamat datang</h1>
+        <form action="./views/pages/dashboard.php" method="post">
+            <div class="form-control">
+                <label for="username">username</label>
+                <input type="text" name="username" placeholder="username" required>
+            </div>
+            <div class="form-control">
+                <label for="password">password</label>
+                <input type="password" name="password" placeholder="password" required>
+            </div>
+            <div class="submit-control">
+                <button type="submit" name="submit">submit</button>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>
