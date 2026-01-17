@@ -1,3 +1,12 @@
+<?php
+declare(strict_types=1);
+session_start();
+if (isset($_SESSION['username']) && $_SESSION['username'] === 'admin' && !empty($_SESSION['auth']) && $_SESSION['role'] === 'admin') {
+    header('location: ./dashboard.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,20 +77,21 @@
         text-transform: uppercase;
         font-size: large;
         background-color: #0d6efd;
+        cursor: pointer;
     }
 </style>
 
 <body>
     <main>
         <h1>selamat datang</h1>
-        <form action="./views/pages/dashboard.php" method="post">
+        <form action="./login.php" method="post">
             <div class="form-control">
                 <label for="username">username</label>
-                <input type="text" name="username" placeholder="username" required>
+                <input type="text" name="username" id="username" placeholder="username" required>
             </div>
             <div class="form-control">
                 <label for="password">password</label>
-                <input type="password" name="password" placeholder="password" required>
+                <input type="password" name="password" id="password" placeholder="password" required>
             </div>
             <div class="submit-control">
                 <button type="submit" name="submit">submit</button>
