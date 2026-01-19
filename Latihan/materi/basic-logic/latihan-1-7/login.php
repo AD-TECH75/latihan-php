@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = rtrim($_POST['password']);
     $token_csrf = rtrim($_POST['crsf']);
 
-    if ($user['username'] === $username && $user['password'] === $password) {
+    if ($user['username'] === $username && password_verify($password, $user['password'])) {
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $password;
         $_SESSION['role'] = $user['role'];
