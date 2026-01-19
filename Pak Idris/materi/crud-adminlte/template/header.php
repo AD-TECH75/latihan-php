@@ -194,19 +194,19 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>adminlte/pages/widgets.html" class="nav-link">
+                            <a href="<?= BASE_URL ?>index.php" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>Dashboard</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>adminlte/pages/widgets.html" class="nav-link">
+                            <a href="<?= BASE_URL ?>barang.php" class="nav-link">
                                 <i class="nav-icon fas fa-box"></i>
                                 <p>Data Barang</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>adminlte/pages/widgets.html" class="nav-link">
+                            <a href="<?= BASE_URL ?>app/tambah.php" class="nav-link">
                                 <i class="nav-icon fas fa-plus"></i>
                                 <p>Tambah Barang</p>
                             </a>

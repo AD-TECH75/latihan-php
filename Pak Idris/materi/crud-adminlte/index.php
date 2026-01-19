@@ -20,7 +20,14 @@ include './template/header.php';
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Barang</span>
-                            <span class="info-box-number">1,410</span>
+                            <?php 
+                            $query = "SELECT COUNT(stok) as jumlah_barang FROM barang";
+                            $proccess = mysqli_prepare($koneksi, $query);
+                            mysqli_stmt_execute($proccess);
+                            $result = mysqli_stmt_get_result($proccess);
+                            $data = mysqli_fetch_assoc($result);
+                            ?>
+                            <span class="info-box-number"><?= $data['jumlah_barang'] ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -33,7 +40,14 @@ include './template/header.php';
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Stok</span>
-                            <span class="info-box-number">410</span>
+                            <?php 
+                            $query = "SELECT SUM(stok) as total_stok FROM barang";
+                            $proccess = mysqli_prepare($koneksi, $query);
+                            mysqli_stmt_execute($proccess);
+                            $result = mysqli_stmt_get_result($proccess);
+                            $data = mysqli_fetch_assoc($result);
+                            ?>
+                            <span class="info-box-number"><?= $data['total_stok'] ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
