@@ -200,7 +200,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>barang.php" class="nav-link">
+                            <a href="<?= BASE_URL ?>app/barang.php" class="nav-link">
                                 <i class="nav-icon fas fa-box"></i>
                                 <p>Data Barang</p>
                             </a>
