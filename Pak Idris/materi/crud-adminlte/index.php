@@ -71,7 +71,7 @@ include './template/header.php';
                                 <li>Mengedit data barang</li>
                                 <li>Menghapus data barang</li>
                             </ul>
-                            <a href="#" class="btn btn-primary">Lihat Data Barang</a>
+                            <a href="<?= BASE_URL ?>app/barang.php" class="btn btn-primary">Lihat Data Barang</a>
                         </div>
                     </div>
                 </div>
