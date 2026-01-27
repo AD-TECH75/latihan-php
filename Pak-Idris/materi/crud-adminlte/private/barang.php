@@ -23,7 +23,7 @@ $message = getMessage();
                                 <div class="card-header">
                                     <h3 class="card-title">Isi dari data barang</h3>
                                     <div class="card-tools">
-                                        <a href="<?= BASE_URL ?>app/tambah.php" class="btn btn-primary btn-sm text-capitalize">tambah barang</a>
+                                        <a href="<?= BASE_URL ?>app/barang/tambah.php" class="btn btn-primary btn-sm text-capitalize">tambah barang</a>
                                     </div>
                                 </div>
                                 <!-- /.card-header -->
@@ -58,8 +58,8 @@ $message = getMessage();
                                                         <td><?= htmlspecialchars($row['stok']) ?></td>
                                                         <td><?= htmlspecialchars($row['deskripsi']) ?></td>
                                                         <td>
-                                                            <a href="<?= BASE_URL ?>app/edit.php?id=<?= $row['id'] ?>" class="btn btn-warning">Edit</a>
-                                                            <a href="<?= BASE_URL ?>app/hapus.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('apakah anda yakin menghapus barang ini?')">hapus</a>
+                                                            <a href="<?= BASE_URL ?>app/barang/edit.php?id=<?= $row['id'] ?>" class="btn btn-warning">Edit</a>
+                                                            <a href="<?= BASE_URL ?>app/barang/hapus.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('apakah anda yakin menghapus barang ini?')">hapus</a>
                                                         </td>
                                                     </tr>
                                                 <?php endwhile; ?>

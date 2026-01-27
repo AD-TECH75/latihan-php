@@ -1,51 +1,53 @@
 <?php
-require '../config/config.php';
+require '../../config/config.php';
 
-if (!isset($_GET['id'])) {
-    header('loaction:' . BASE_URL);
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+if (!$id) {
+    header('Location: ' . BASE_URL);
     exit();
 }
 
-$id = mysqli_real_escape_string($koneksi, $_GET['id']);
 $query = "SELECT * FROM barang WHERE id=?";
-$result = mysqli_prepare($koneksi, $query);
-mysqli_stmt_bind_param($result, "i", $id);
-mysqli_stmt_execute($result);
-$result = mysqli_stmt_get_result($result);
+$stmt = mysqli_prepare($koneksi, $query);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $barang = mysqli_fetch_assoc($result);
 
 if (!$barang) {
-    showMessage('danger', 'data barang tidak di temukan');
-    header('loaction:' . BASE_URL . "app/barang.php");
+    showMessage('danger', 'Data tidak ditemukan');
+    header('Location: ' . BASE_URL . "private/barang.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = mysqli_real_escape_string($koneksi, $_POST['id']);
-    $namaBarang = mysqli_escape_string($koneksi, $_POST['namaBarang']);
-    $kategori = mysqli_escape_string($koneksi, $_POST['kategori']);
-    $harga = mysqli_escape_string($koneksi, $_POST['hargaBarang']);
-    $stok = mysqli_escape_string($koneksi, $_POST['stok']);
-    $deskripsi = mysqli_escape_string($koneksi, $_POST['deskripsi']);
+    $idPost = $_POST['id'];
+    $namaBarang = $_POST['namaBarang'];
+    $kategori = $_POST['kategori'];
+    $harga = $_POST['hargaBarang'];
+    $stok = $_POST['stok'];
+    $deskripsi = $_POST['deskripsi'];
 
-    mysqli_autocommit($koneksi, false);
+    mysqli_begin_transaction($koneksi); 
 
-    $query = "UPDATE barang SET nama_barang=?, kategori=?, harga=?, stok=?, deskripsi=? WHERE id=?";
-    $result = mysqli_prepare($koneksi, $query);
-    mysqli_stmt_bind_param($result, "ssiisi", $namaBarang, $kategori, $harga, $stok, $deskripsi, $id);
-    $check = mysqli_stmt_execute($result);
+    try {
+        $query = "UPDATE barang SET nama_barang=?, kategori=?, harga=?, stok=?, deskripsi=? WHERE id=?";
+        $stmt = mysqli_prepare($koneksi, $query);
+        mysqli_stmt_bind_param($stmt, "ssiisi", $namaBarang, $kategori, $harga, $stok, $deskripsi, $idPost);
+        mysqli_stmt_execute($stmt);
 
-    if ($check) {
         mysqli_commit($koneksi);
-        showMessage('success', 'Data Barang Behasil update');
-        header('location:' . BASE_URL . 'app/barang.php');
-    } else {
+        showMessage('success', 'Data Berhasil diupdate');
+        header('Location: ' . BASE_URL . 'private/barang.php');
+        exit();
+    } catch (Exception $e) {
         mysqli_rollback($koneksi);
-        showMessage('danger', 'Data Barang Gagal update' . mysqli_error($koneksi));
-        header('location:' . BASE_URL . 'app/barang.php');
+        showMessage('danger', 'Gagal update data');
+        header('Location: ' . BASE_URL . 'private/barang.php');
+        exit();
     }
 }
-
 require BASE_PATH . 'template/header.php';
 ?>
 <div class="content-wrapper">

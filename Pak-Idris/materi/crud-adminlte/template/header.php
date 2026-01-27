@@ -200,18 +200,41 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>app/barang.php" class="nav-link">
+                            <a href="<?= BASE_URL ?>private/user.php" class="nav-link">
+                                <i class="nav-icon fa fa-user"></i>
+                                <p>Kelola User</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= BASE_URL ?>private/barang.php" class="nav-link">
                                 <i class="nav-icon fas fa-box"></i>
                                 <p>Data Barang</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= BASE_URL ?>app/tambah.php" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-plus"></i>
-                                <p>Tambah Barang</p>
+                                <p>
+                                    Tambah
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= BASE_URL ?>app/user/tambah.php" class="nav-link">
+                                        <i class="fas fa-user nav-icon"></i>
+                                        <p>Tambah User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= BASE_URL ?>app/barang/tambah.php" class="nav-link">
+                                        <i class="fas fa-box nav-icon"></i>
+                                        <p>Tambah Barang</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                <!-- /.sidebar-menu -->
+                        <!-- /.sidebar-menu -->
             </div>
             <!-- /.sidebar -->
         </aside>

@@ -1,5 +1,5 @@
 <?php
-require '../config/config.php';
+require '../../config/config.php';
 $message = getMessage();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,11 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result) {
         mysqli_commit($koneksi);
         showMessage('success', 'Data Barang Behasil ditambahkan');
-        header('location:' . BASE_URL . 'app/barang.php');
+        header('location:' . BASE_URL . 'private/barang.php');
     } else {
         mysqli_rollback($koneksi);
         showMessage('danger', 'Data Barang Gagal ditambahkan' . mysqli_error($koneksi));
-        header('location:' . BASE_URL . 'app/barang.php');
+        header('location:' . BASE_URL . 'private/barang.php');
     }
 
     mysqli_close($koneksi);
