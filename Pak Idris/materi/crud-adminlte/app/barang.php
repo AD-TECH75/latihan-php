@@ -59,7 +59,7 @@ $message = getMessage();
                                                         <td><?= htmlspecialchars($row['deskripsi']) ?></td>
                                                         <td>
                                                             <a href="<?= BASE_URL ?>app/edit.php?id=<?= $row['id'] ?>" class="btn btn-warning">Edit</a>
-                                                            <a href="#" class="btn btn-danger" onclick="return confirm('apakah anda yakin menghapus barang ini?')">hapus</a>
+                                                            <a href="<?= BASE_URL ?>app/hapus.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('apakah anda yakin menghapus barang ini?')">hapus</a>
                                                         </td>
                                                     </tr>
                                                 <?php endwhile; ?>
