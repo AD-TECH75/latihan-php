@@ -6,8 +6,10 @@ require BASE_PATH . 'template/header.php';
 // Ambil parameter pencarian
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $kategori_filter = isset($_GET['kategori']) ? $_GET['kategori'] : '';
+
 // Ambil data dengan filter
 $result = getBarang($keyword, $kategori_filter);
+
 // Ambil semua kategori untuk dropdown
 $kategori_list = getKategori();
 
@@ -63,12 +65,14 @@ $message = getMessage();
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary mb-2 mr-2">
-                                <i class="fas fa-search"></i> Cari
-                            </button>
-                            <a href="barang.php" class="btn btn-secondary mb-2">
-                                <i class="fas fa-redo"></i> Reset
-                            </a>
+                            <div>
+                                <button type="submit" class="btn btn-primary mb-2 mr-2">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                                <a href="barang.php" class="btn btn-secondary mb-2">
+                                    <i class="fas fa-redo"></i> Reset
+                                </a>
+                            </div>
                         </form>
                     </div>
                 </div>

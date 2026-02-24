@@ -1,181 +1,129 @@
 <?php
-// print_simple.php
-include 'config.php';
-include 'fungsi.php';
-// Ambil parameter pencarian
-$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
-$kategori_filter = isset($_GET['kategori']) ? $_GET['kategori'] : '';
-// Ambil data
-$result = getBarang($keyword, $kategori_filter);
+require "../../config/config.php";
+require BASE_PATH . "app/barang/filter.php";
+
+$keyword = isset($_GET['keyword']) ?? "";
+$kategori = isset($_GET['kategori']) ?? "";
+
+$result = getBarang($keyword, $kategori);
+
+require_once BASE_PATH . "template/header.php";
 ?>
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print Data Barang</title>
-    <style>
-        * {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
         }
-
-        body {
-            padding: 20px;
+        .card-body,
+        .card-body * {
+            visibility: visible;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header h1 {
-            margin-bottom: 5px;
-        }
-
-        .info {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f5f5f5;
-            border-radius: 5px;
-        }
-
-        table {
+        .card-body {
+            position: absolute;
+            left: 0;
+            top: 0;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
         }
+    }
+</style>
 
-        table,
-        th,
-        td {
-            border: 1px solid #333;
-        }
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-uppercase">Print Data Barang</h1>
+                </div>
+            </div><!-- /.row -->
+        </div>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Print Data</h3>
+                        <div class="card-tools">
+                            <a onclick="window.print()" class="btn btn-primary btn-sm text-capitalize">
+                                <i class="fas fa-print"></i>
+                                print
+                            </a>
+                            <a href="<?= BASE_URL ?>private/barang.php" class="btn btn-secondary btn-sm text-capitalize">
+                                <i class="fas fa-arrow-left"></i>
+                                kembali
+                            </a>
+                        </div>
+                    </div>
 
-        th,
-        td {
-            padding: 8px;
-            text-align: left;
-        }
+                    <div class="card-body">
+                        <div>
+                            <h1 class="text text-center text-bold text-uppercase">laporan data barang</h1>
+                            <p class="text text-center text-capitalize">pada tanggal: <?= date('d/m/Y') ?> jam <?= date('H:i:s') ?></p>
+                        </div>
 
-        th {
-            background-color: #f2f2f2;
-        }
+                        <div class="card p-2">
+                            <p class="text text-capitalize text-bold m-0">
+                                filter :
+                                <?php
+                                if (empty($keyword) && empty($kategori_filter)) echo ' Tidak ada filter khusus ';
+                                if (!empty($keyword)) echo ' Kata kunci "' . htmlspecialchars($keyword) . '"';
+                                if (!empty($kategori_filter) && $kategori_filter != 'semua') echo ' Kategori " ' . htmlspecialchars($kategori_filter) . ' "';
+                                ?>
+                            </p>
+                            <p class="text text-capitalize text-bold m-0">total data : <?= mysqli_num_rows($result) ?> barang</p>
+                        </div>
 
-        .total {
+                        <table class="table table-bordered table-hover">
+                            <thead class="text-center">
+                                <tr>
+                                    <th class="text text-capitalize">No</th>
+                                    <th class="text text-capitalize">nama barang</th>
+                                    <th class="text text-capitalize">kategori</th>
+                                    <th class="text text-capitalize">harga</th>
+                                    <th class="text text-capitalize">stok</th>
+                                    <th class="text text-capitalize">deskripsi</th>
+                                    <th class="text text-capitalize">tanggal input</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                $total_harga = 0;
+                                $total_stok = 0;
 
-            font-weight: bold;
-            background-color: #e8f4ff;
-        }
+                                while ($row = mysqli_fetch_assoc($result)):
+                                    $total_harga += $row['harga'] * $row['stok'];
+                                    $total_stok += $row['stok'];
+                                ?>
+                                    <tr>
+                                        <td><?= $no++ ?></td>
+                                        <td><?= htmlspecialchars($row['nama_barang']) ?></td>
+                                        <td><?= htmlspecialchars($row['kategori']) ?></td>
+                                        <td>Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
+                                        <td><?= htmlspecialchars($row['stok']) ?></td>
+                                        <td><?= htmlspecialchars($row['deskripsi']) ?></td>
+                                        <td><?= htmlspecialchars($row['created_at']) ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
 
-        /* .no-print {
-display: none;
-} */
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-
-            body {
-                padding: 0;
-                margin: 0;
-            }
-
-            @page {
-                size: portrait;
-                margin: 1cm;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <!-- Tombol print hanya untuk browser -->
-    <div class="no-print" style="margin-bottom: 20px; text-align: center;">
-        <button onclick="window.print()" style="padding: 10px 20px; background: #007bff;
-color: white; border: none; border-radius: 5px; cursor: pointer;">
-            ️ Cetak Halaman
-        </button>
-        <button onclick="window.close()" style="padding: 10px 20px; background:
-#6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">
-            ✖️ Tutup
-        </button>
+                                <!-- total -->
+                                <tr class="bg-primary bg-opacity-10">
+                                    <td colspan="3" class="text text-uppercase">total</td>
+                                    <td>Rp <?= number_format($total_harga, 0, ',', '.') ?></td>
+                                    <td><?= htmlspecialchars($total_stok) ?></td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-3">
+                            <p class="text text-uppercase text-bold m-0">ringkasan :</p>
+                            <p class="text text-capitalize m-0">total data : <?= ($no - 1) ?> barang</p>
+                            <p class="text text-capitalize m-0">total nilai barang : Rp <?= number_format($total_harga, 0, ',', '.') ?></p>
+                            <p class="text text-capitalize m-0">rata-rata harga : Rp <?= number_format(($no > 1) ? $total_harga / ($no - 1) : 0, 0, ',', '.'); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="header">
-        <h1>LAPORAN DATA BARANG</h1>
-        <p>Tanggal Cetak: <?php echo date('d/m/Y H:i:s'); ?></p>
-    </div>
-    <div class="info">
-        <p><strong>Filter:</strong>
-            <?php
-            if (!empty($keyword)) echo ' Kata kunci: "' . htmlspecialchars($keyword) . '"';
-            if (!empty($kategori_filter) && $kategori_filter != 'semua') echo ' Kategori: ' .
-                htmlspecialchars($kategori_filter);
-            ?>
-        </p>
-        <p><strong>Total Data:</strong> <?php echo mysqli_num_rows($result); ?>
-            barang</p>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Barang</th>
-                <th>Kategori</th>
-                <th>Harga</th>
-                <th>Stok</th>
-                <th>Deskripsi</th>
-                <th>Tanggal Input</th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
 
-            <?php
-            $no = 1;
-            $total_harga = 0;
-            $total_stok = 0;
-            while ($row = mysqli_fetch_assoc($result)):
-                $total_harga += $row['harga'] * $row['stok'];
-                $total_stok += $row['stok'];
-            ?>
-                <tr>
-                    <td><?php echo $no++; ?></td>
-                    <td><?php echo htmlspecialchars($row['nama_barang']); ?></td>
-                    <td><?php echo htmlspecialchars($row['kategori']); ?></td>
-                    <td>Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?></td>
-                    <td><?php echo $row['stok']; ?></td>
-                    <td><?php echo htmlspecialchars($row['deskripsi']); ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($row['created_at'])); ?></td>
-                </tr>
-            <?php endwhile; ?>
-            <!-- Total -->
-            <tr class="total">
-                <td colspan="3">TOTAL</td>
-                <td>Rp <?php echo number_format($total_harga, 0, ',', '.'); ?></td>
-                <td><?php echo $total_stok; ?></td>
-                <td colspan="2"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div style="margin-top: 20px;">
-        <p><strong>Ringkasan:</strong></p>
-        <p>Total Data: <?php echo ($no - 1); ?> barang</p>
-        <p>Total Nilai Barang: Rp <?php echo number_format($total_harga, 0, ',', '.'); ?>
-        </p>
-        <p>Rata-rata Harga: Rp <?php echo number_format(($no > 1) ? $total_harga /
-                                    ($no - 1) : 0, 0, ',', '.'); ?></p>
-    </div>
-    <script>
-        // Auto print saat halaman dimuat
-        window.onload = function() {
-            // Jika parameter auto_print ada, langsung print
-            if (window.location.search.indexOf('auto_print') !== -1) {
-                window.print();
-            }
-        };
-    </script>
-</body>
-
-</html>
+<?php require_once BASE_PATH . "template/footer.php";  ?>
