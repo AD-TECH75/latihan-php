@@ -87,7 +87,10 @@ $message = getMessage();
                 <div class="card-header">
                     <h3 class="card-title">Daftar Barang</h3>
                     <div class="card-tools">
-                        <a href="tambah.php" class="btn btn-primary btn-sm">
+                        <a href="<?= BASE_URL ?>app/barang/print.php" class="btn btn-primary btn-sm">
+                            <i class="fas fa-print"></i> Print Tabel Barang
+                        </a>
+                        <a href="<?= BASE_URL ?>app/barang/tambah.php" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah Barang
                         </a>
                     </div>
