@@ -18,6 +18,7 @@
             </div>
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">submit</button>
+                <a href="gallery.php" class="btn btn-primary">Lihat galeri</a>
             </div>
         </form>
     </div>
