@@ -23,7 +23,7 @@
                                 unset($_SESSION['error']) ?>
                             </div>
                         <?php endif; ?>
-                        <form action="./app/config.php" method="post" enctype="multipart/form-data">
+                        <form action="./app/upload.php" method="post" enctype="multipart/form-data">
                             <div class="mb-3">
                                 <label for="description" class="form-label text-capitalize">description</label>
                                 <input type="text" class="form-control" id="description" name="description" maxlength="255" required>
