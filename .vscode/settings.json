@@ -1,1 +1,13 @@
-{}
+{
+	"editor.tokenColorCustomizations": {
+		"textMateRules": [
+			{
+				"scope": ["entity.name.tag", "punctuation.definition.tag"],
+				"settings": {
+					"foreground": "#3794ff", // Ini warna biru modern (Light Blue)
+					"fontStyle": "bold"
+				}
+			}
+		]
+	}
+}
