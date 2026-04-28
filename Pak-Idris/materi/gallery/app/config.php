@@ -1,11 +1,11 @@
 <?php
+// Contoh config.php yang benar
 $host = 'localhost';
-$username = 'akaza';
-$pass = 'persebaya1927';
-$dbname = 'db_gallery';
+$user = 'akaza';
+$pass = 'persebaya1927'; // sesuaikan password
+$db   = 'db_gallery';
 
-$conn = new mysqli($host, $username, $pass, $dbname);
-
-if ($conn -> connect_error) {
-    die("connection failed: " . $conn->connect_error);
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
 }
